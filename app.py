@@ -64,11 +64,8 @@ selected_product_type = st.selectbox("Select a product type", product_types)
 filtered_products = [p for p in filtered_products if p['product_type'] == selected_product_type]
 
 sizes = sorted(set(i['option2'] for p in filtered_products for i in p['variants']))
-# selected_size = st.selectbox("Select a size", sizes)
-# filtered_products = [p for p in filtered_products if any(i['option1'] == selected_size for i in p['variants'])]
-selected_sizes = st.multiselect("Select sizes", sizes)
-if selected_sizes:
-    filtered_products = [p for p in filtered_products if any(i['available'] and i['option2'] in selected_sizes for i in p['variants'])]
+selected_sizes = st.multiselect("Select sizes", sizes, default=['6', '6.5', '7'])
+filtered_products = [p for p in filtered_products if any(i['available'] and i['option2'] in selected_sizes for i in p['variants'])]
 
 st.write(f"Found {len(filtered_products)} matched products.")
 
