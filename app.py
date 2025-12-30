@@ -4,18 +4,18 @@ from collections import Counter
 import pandas as pd
 
 # Add custom CSS to hide the GitHub icon
-st.markdown(
-    """
-    <style>
-    .css-1jc7ptx, .e1ewe7hr3, .viewerBadge_container__1QSob,
-    .styles_viewerBadge__1yB5_, .viewerBadge_link__1S137,
-    .viewerBadge_text__1JaDK {
-        display: none;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# st.markdown(
+#     """
+#     <style>
+#     .css-1jc7ptx, .e1ewe7hr3, .viewerBadge_container__1QSob,
+#     .styles_viewerBadge__1yB5_, .viewerBadge_link__1S137,
+#     .viewerBadge_text__1JaDK {
+#         display: none;
+#     }
+#     </style>
+#     """,
+#     unsafe_allow_html=True
+# )
 
 # st.set_page_config(page_title="Equinox Quick Search", layout="wide")
 
@@ -61,7 +61,7 @@ def fetch_shopify_products(base_url):
     return all_products
 
 # UI
-# st.markdown("<h3>Equinox Quick Search</h3>", unsafe_allow_html=True)
+st.markdown("<h3>Equinox Quick Search</h3>", unsafe_allow_html=True)
 URL = 'http://shop.equinox.com'
 products = fetch_shopify_products(URL)
 
