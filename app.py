@@ -3,19 +3,6 @@ import requests
 from collections import Counter
 import pandas as pd
 
-# Add custom CSS to hide the GitHub icon
-# st.markdown(
-#     """
-#     <style>
-#     .css-1jc7ptx, .e1ewe7hr3, .viewerBadge_container__1QSob,
-#     .styles_viewerBadge__1yB5_, .viewerBadge_link__1S137,
-#     .viewerBadge_text__1JaDK {
-#         display: none;
-#     }
-#     </style>
-#     """,
-#     unsafe_allow_html=True
-# )
 
 st.set_page_config(page_title="Equinox Quick Search", layout="wide")
 
@@ -94,7 +81,7 @@ for product in filtered_products:
         matched_sizes = product_available_sizes
     df_display.append({
         'Title': product['title'],
-        'Url': f'{URL}/products/{product['handle']}',
+        'Url': f'<a href="{URL}/products/{product["handle"]}" target="_blank">Link</a>',
         'Matched Sizes': matched_sizes,
         'Available Sizes': product_available_sizes,
         'Price': product['variants'][0]['price'] if product['variants'] else None,
@@ -102,4 +89,12 @@ for product in filtered_products:
         # 'Images': product['images']
     })
 df_display = pd.DataFrame(df_display)
-st.markdown(df_display.to_html(render_links=True), unsafe_allow_html=True)
+# Apply left alignment styling
+style = """
+<style>
+th, td {
+    text-align: left !important;
+}
+</style>
+"""
+st.markdown(style + df_display.to_html(escape=False), unsafe_allow_html=True)
