@@ -61,7 +61,7 @@ def fetch_shopify_products(base_url):
     return all_products
 
 # UI
-st.markdown("<h3>Equinox Quick Search</h3>", unsafe_allow_html=True)
+# st.markdown("<h3>Equinox Quick Search</h3>", unsafe_allow_html=True)
 URL = 'http://shop.equinox.com'
 products = fetch_shopify_products(URL)
 
