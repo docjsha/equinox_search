@@ -56,7 +56,7 @@ vendors = [k for k, _ in Counter([p['vendor'] for p in products]).most_common()]
 selected_vendor = st.selectbox("Select a vendor", vendors)
 filtered_products = [p for p in products if p['vendor'] == selected_vendor]
 
-selected_gender = st.selectbox("Select a gender", ["Women", "Men"])
+selected_gender = st.selectbox("Select a gender (optional)", ["", "Women", "Men"], index=0)
 filtered_products = [p for p in filtered_products if selected_gender in p['title']]
 
 product_types = [k for k, _ in Counter([p['product_type'] for p in filtered_products]).most_common()]
@@ -64,8 +64,17 @@ selected_product_type = st.selectbox("Select a product type", product_types)
 filtered_products = [p for p in filtered_products if p['product_type'] == selected_product_type]
 
 sizes = sorted(set(i['option2'] for p in filtered_products for i in p['variants']))
-selected_sizes = st.multiselect("Select sizes", sizes, default=['6', '6.5', '7'])
-filtered_products = [p for p in filtered_products if any(i['available'] and i['option2'] in selected_sizes for i in p['variants'])]
+
+# Determine default sizes based on vendor
+default_opts = ['6', '6.5', '7'] if selected_vendor == 'On' else []
+# Ensure defaults are valid options
+valid_defaults = [s for s in default_opts if s in sizes]
+
+selected_sizes = st.multiselect("Select sizes", sizes, default=valid_defaults, key=f"size_{selected_vendor}")
+
+# Only filter products if specific sizes are selected
+if selected_sizes:
+    filtered_products = [p for p in filtered_products if any(i['available'] and i['option2'] in selected_sizes for i in p['variants'])]
 
 st.write(f"Found {len(filtered_products)} matched products.")
 
