@@ -17,7 +17,7 @@ import pandas as pd
 #     unsafe_allow_html=True
 # )
 
-# st.set_page_config(page_title="Equinox Quick Search", layout="wide")
+st.set_page_config(page_title="Equinox Quick Search", layout="wide")
 
 @st.cache_data(show_spinner="Fetching products...")
 def fetch_shopify_products(base_url):
