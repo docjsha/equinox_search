@@ -3,9 +3,8 @@ import pandas as pd
 import requests
 import streamlit as st
 
-st.set_page_config(page_title="Equinox Quick Search", layout="wide")
 
-# @st.cache_data(show_spinner="Fetching products...")
+@st.cache_data(ttl=60*3, show_spinner="Fetching products...")
 def fetch_shopify_products(base_url):
     """
     Fetches products from a Shopify store's public JSON API.
@@ -47,6 +46,7 @@ def fetch_shopify_products(base_url):
     return all_products
 
 def main():
+    st.set_page_config(page_title="Equinox Quick Search", layout="wide")
     st.markdown("<h3>Equinox Quick Search</h3>", unsafe_allow_html=True)
     URL = 'http://shop.equinox.com'
     products = fetch_shopify_products(URL)
