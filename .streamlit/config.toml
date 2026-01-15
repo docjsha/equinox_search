@@ -1,19 +1,2 @@
 [theme]
-primaryColor = "#FF4B4B"
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F0F2F6"
-textColor = "#262730"
-font = "sans serif"
-
-[client]
-# Hide the GitHub icon and "Deploy" button
-showErrorDetails = false
-toolbarMode = "minimal"
-
-[server]
-# Additional server settings
-headless = true
-
-[browser]
-# Prevent the browser from automatically opening
-gatherUsageStats = false
+base="light"
