@@ -103,11 +103,16 @@ def main():
     # Extract actual URLs from HTML links
     df_display['Url'] = df_display['Url'].str.extract(r'href="([^"]+)"')[0]
     
-    # Display using Streamlit's native dataframe with built-in sorting
-    st.dataframe(
+    # Display using Streamlit's data_editor with pinned first column
+    st.data_editor(
         df_display,
         use_container_width=True,
+        disabled=True,  # Make it read-only
         column_config={
+            "Title": st.column_config.Column(
+                "Title",
+                pinned=True  # Pin the first column
+            ),
             "Url": st.column_config.LinkColumn(
                 "Link",
                 display_text="Url"
