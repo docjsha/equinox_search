@@ -5,7 +5,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Equinox Quick Search", layout="wide")
 
-@st.cache_data(ttl=60*5, show_spinner="Fetching products...")
+@st.cache_data(show_spinner="Fetching products...")
 def fetch_shopify_products(base_url):
     """
     Fetches products from a Shopify store's public JSON API.
@@ -48,6 +48,10 @@ def fetch_shopify_products(base_url):
 
 def main():
     st.markdown("<h3>Equinox Quick Search</h3>", unsafe_allow_html=True)
+    # Initialize session state
+    if 'initialized' not in st.session_state:
+        st.session_state.initialized = True
+        st.cache_data.clear()  # Clear on first load only
     URL = 'http://shop.equinox.com'
     products = fetch_shopify_products(URL)
 
@@ -96,28 +100,31 @@ def main():
         })
     df_display = pd.DataFrame(df_display)
     
-    # Convert to HTML with left alignment
-    html_table = df_display.to_html(escape=False, index=False)
+    # Extract actual URLs from HTML links
+    df_display['Url'] = df_display['Url'].str.extract(r'href="([^"]+)"')[0]
     
-    # Add CSS for left alignment
-    styled_html = f"""
-<style>
-    table {{
-        width: 100%;
-        border-collapse: collapse;
-    }}
-    th, td {{
-        text-align: left !important;
-        padding: 8px;
-        border: 1px solid #ddd;
-    }}
-    th {{
-        background-color: #f2f2f2;
-    }}
-</style>
-{html_table}
-"""
-    st.markdown(styled_html, unsafe_allow_html=True)
+    # Display using Streamlit's native dataframe with built-in sorting
+    st.dataframe(
+        df_display,
+        use_container_width=True,
+        column_config={
+            "Url": st.column_config.LinkColumn(
+                "Link",
+                display_text="Url"
+            ),
+            "Matched Sizes": st.column_config.ListColumn(
+                "Matched Sizes"
+            ),
+            "Available Sizes": st.column_config.ListColumn(
+                "Available Sizes"
+            ),
+            "Price": st.column_config.NumberColumn(
+                "Price",
+                format="$%.2f"
+            )
+        },
+        hide_index=True
+    )
 
 
 if __name__ == "__main__":
