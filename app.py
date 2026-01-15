@@ -106,7 +106,7 @@ def main():
     # Display using Streamlit's data_editor with pinned first column
     st.data_editor(
         df_display,
-        use_container_width=True,
+        width='stretch',
         disabled=True,  # Make it read-only
         column_config={
             "Title": st.column_config.Column(
