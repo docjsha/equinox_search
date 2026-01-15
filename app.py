@@ -5,6 +5,40 @@ import streamlit as st
 
 st.set_page_config(page_title="Equinox Quick Search", layout="wide")
 
+# Hide GitHub icon, deploy button, and Streamlit branding
+hide_streamlit_style = """
+<style>
+    /* Hide main menu (hamburger) */
+    #MainMenu {visibility: hidden;}
+    
+    /* Hide footer */
+    footer {visibility: hidden;}
+    
+    /* Hide header */
+    header {visibility: hidden;}
+    
+    /* Hide deploy button and GitHub icon */
+    .stDeployButton {display: none;}
+    button[kind="header"] {display: none;}
+    
+    /* Hide the entire toolbar */
+    [data-testid="stToolbar"] {display: none;}
+    
+    /* Alternative selectors for toolbar items */
+    .styles_viewerBadge__1yB5_ {display: none;}
+    .viewerBadge_container__1QSob {display: none;}
+    .viewerBadge_link__1S137 {display: none;}
+    .viewerBadge_text__1JaDK {display: none;}
+    
+    /* Hide "Made with Streamlit" */
+    footer::after {
+        content: "";
+        display: none;
+    }
+</style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 @st.cache_data(show_spinner="Fetching products...")
 def fetch_shopify_products(base_url):
     """
