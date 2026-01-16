@@ -130,9 +130,9 @@ def main():
                 "Matched Sizes": st.column_config.ListColumn(
                     "Matched Sizes"
                 ),
-                "Available Sizes": st.column_config.ListColumn(
-                    "Available Sizes"
-                ),
+                # "Available Sizes": st.column_config.ListColumn(
+                #     "Available Sizes"
+                # ),
                 "Price": st.column_config.NumberColumn(
                     "Price",
                     format="$%.2f"
