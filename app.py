@@ -115,7 +115,7 @@ def main():
         # Display using Streamlit's data_editor with pinned first column
         st.data_editor(
             df_display,
-            width='stretch',  # Updated from use_container_width=True
+            width='content',  # Fit to content width, no extra space
             height=table_height,  # Dynamic height to show all rows without extra space
             disabled=True,  # Make it read-only
             column_config={
