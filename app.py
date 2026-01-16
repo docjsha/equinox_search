@@ -94,10 +94,10 @@ def main():
             df_display.append({
                 'Title': product['title'],
                 'Url': f'<a href="{URL}/products/{product["handle"]}" target="_blank">Link</a>',
-                'Matched Sizes': matched_sizes,
-                # 'Available Sizes': product_available_sizes,
                 'Option': product['variants'][0]['option1'] if product['variants'] else None,
                 'Price': product['variants'][0]['price'] if product['variants'] else None,
+                'Matched Sizes': matched_sizes,
+                'Available Sizes': product_available_sizes,
                 # 'Description': product['body_html'],
                 # 'Images': product['images']
             })
@@ -130,9 +130,9 @@ def main():
                 "Matched Sizes": st.column_config.ListColumn(
                     "Matched Sizes"
                 ),
-                # "Available Sizes": st.column_config.ListColumn(
-                #     "Available Sizes"
-                # ),
+                "Available Sizes": st.column_config.ListColumn(
+                    "Available Sizes"
+                ),
                 "Price": st.column_config.NumberColumn(
                     "Price",
                     format="$%.2f"
