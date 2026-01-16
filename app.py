@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 import streamlit as st
 
-st.set_page_config(page_title="Equinox Quick Search", layout="wide")
+st.set_page_config(page_title="Equinox Shop Search", layout="wide")
 
 
 @st.cache_data(show_spinner="Fetching products...")
@@ -48,7 +48,7 @@ def fetch_shopify_products(base_url):
     return all_products
 
 def main():
-    st.markdown("<h3>Equinox Quick Search</h3>", unsafe_allow_html=True)
+    st.markdown("<h3>Equinox Shop Search</h3>", unsafe_allow_html=True)
     # Initialize session state
     if 'initialized' not in st.session_state:
         st.session_state.initialized = True
