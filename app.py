@@ -108,6 +108,7 @@ def main():
     st.data_editor(
         df_display,
         width='stretch',
+        height=700,  # Show at least 20 rows (~35px per row)
         disabled=True,  # Make it read-only
         column_config={
             "Title": st.column_config.Column(
