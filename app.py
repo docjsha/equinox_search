@@ -70,7 +70,7 @@ def main():
     sizes = sorted(set(i['option2'] for p in filtered_products for i in p['variants']))
 
     # Determine default sizes based on vendor
-    default_opts = ['6', '6.5', '7'] if selected_vendor == 'On' else []
+    default_opts = ['6', '6.5'] if selected_vendor == 'On' else []
     # Ensure defaults are valid options
     valid_defaults = [s for s in default_opts if s in sizes]
 
