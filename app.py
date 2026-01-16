@@ -80,58 +80,66 @@ def main():
     if selected_sizes:
         filtered_products = [p for p in filtered_products if any(i['available'] and i['option2'] in selected_sizes for i in p['variants'])]
 
-    st.write(f"Found {len(filtered_products)} matched products.")
+    num_filtered_products = len(filtered_products)
+    st.write(f"Found {num_filtered_products} matched products.")
 
-    df_display = []
-    for product in filtered_products:
-        product_available_sizes = [i['option2'] for i in product['variants'] if i['available']]
-        if selected_sizes:
-            matched_sizes = [s for s in product_available_sizes if s in selected_sizes]
-        else:
-            matched_sizes = product_available_sizes
-        df_display.append({
-            'Title': product['title'],
-            'Url': f'<a href="{URL}/products/{product["handle"]}" target="_blank">Link</a>',
-            'Matched Sizes': matched_sizes,
-            'Available Sizes': product_available_sizes,
-            'Option': product['variants'][0]['option1'] if product['variants'] else None,
-            'Price': product['variants'][0]['price'] if product['variants'] else None,
-            # 'Description': product['body_html'],
-            # 'Images': product['images']
-        })
-    df_display = pd.DataFrame(df_display)
-    
-    # Extract actual URLs from HTML links
-    df_display['Url'] = df_display['Url'].str.extract(r'href="([^"]+)"')[0]
-    
-    # Display using Streamlit's data_editor with pinned first column
-    st.data_editor(
-        df_display,
-        width='stretch',
-        height=700,  # Show at least 20 rows (~35px per row)
-        disabled=True,  # Make it read-only
-        column_config={
-            "Title": st.column_config.Column(
-                "Title",
-                pinned=True  # Pin the first column
-            ),
-            "Url": st.column_config.LinkColumn(
-                "Link",
-                display_text="Url"
-            ),
-            "Matched Sizes": st.column_config.ListColumn(
-                "Matched Sizes"
-            ),
-            "Available Sizes": st.column_config.ListColumn(
-                "Available Sizes"
-            ),
-            "Price": st.column_config.NumberColumn(
-                "Price",
-                format="$%.2f"
-            )
-        },
-        hide_index=True
-    )
+    if num_filtered_products > 0:
+        df_display = []
+        for product in filtered_products:
+            product_available_sizes = [i['option2'] for i in product['variants'] if i['available']]
+            if selected_sizes:
+                matched_sizes = [s for s in product_available_sizes if s in selected_sizes]
+            else:
+                matched_sizes = product_available_sizes
+            df_display.append({
+                'Title': product['title'],
+                'Url': f'<a href="{URL}/products/{product["handle"]}" target="_blank">Link</a>',
+                'Matched Sizes': matched_sizes,
+                'Available Sizes': product_available_sizes,
+                'Option': product['variants'][0]['option1'] if product['variants'] else None,
+                'Price': product['variants'][0]['price'] if product['variants'] else None,
+                # 'Description': product['body_html'],
+                # 'Images': product['images']
+            })
+        df_display = pd.DataFrame(df_display)
+        
+        # Extract actual URLs from HTML links
+        df_display['Url'] = df_display['Url'].str.extract(r'href="([^"]+)"')[0]
+        
+        # Calculate height to show all rows without extra space
+        num_rows = len(df_display)
+        row_height = 35  # Approximate height per row in pixels
+        header_height = 35  # Height for table header
+        table_height = (num_rows * row_height) + header_height
+        
+        # Display using Streamlit's data_editor with pinned first column
+        st.data_editor(
+            df_display,
+            width='stretch',  # Updated from use_container_width=True
+            height=table_height,  # Dynamic height to show all rows without extra space
+            disabled=True,  # Make it read-only
+            column_config={
+                "Title": st.column_config.Column(
+                    "Title",
+                    pinned=True  # Pin the first column
+                ),
+                "Url": st.column_config.LinkColumn(
+                    "Link",
+                    display_text="Url"
+                ),
+                "Matched Sizes": st.column_config.ListColumn(
+                    "Matched Sizes"
+                ),
+                "Available Sizes": st.column_config.ListColumn(
+                    "Available Sizes"
+                ),
+                "Price": st.column_config.NumberColumn(
+                    "Price",
+                    format="$%.2f"
+                )
+            },
+            hide_index=True
+        )
 
 
 if __name__ == "__main__":
