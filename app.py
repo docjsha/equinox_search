@@ -95,7 +95,7 @@ def main():
                 'Title': product['title'],
                 'Url': f'<a href="{URL}/products/{product["handle"]}" target="_blank">Link</a>',
                 'Matched Sizes': matched_sizes,
-                'Available Sizes': product_available_sizes,
+                # 'Available Sizes': product_available_sizes,
                 'Option': product['variants'][0]['option1'] if product['variants'] else None,
                 'Price': product['variants'][0]['price'] if product['variants'] else None,
                 # 'Description': product['body_html'],
